@@ -1,0 +1,271 @@
+import { StyleSheet } from "react-native";
+
+export const colores = {
+  uno: "#FFA500", // Naranja
+  dos: "#E9A9B4", // Rosa
+  tres: "#008000", // Verde
+  cuatro: "#FF8C00", // Naranja oscuro
+  cinco: "#60C389", // Verde claro
+  seis: "#FFFFFF", // Blanco
+  siete: "#E8838F", // Rosa fuerte
+  ocho: "black",
+  gris_claro: "#BDBBBB",
+  naranja_claro: "#FF995B",
+  rosa: "#E8A399",
+  verde: "#3CBD72",
+  rosa2: "#F3879B",
+  rosa3: "#E0707B",
+  gris_oscuro: "#3E4A3E",
+  naranja_oscuro: "#4A423E",
+};
+
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  text_inicio: {
+    fontSize: 30,
+    textAlign: "center",
+    marginTop: "20%",
+  },
+  text_2: {
+    fontSize: 20,
+    textAlign: "center",
+    flex: 1,
+    padding: 50,
+  },
+  imagenes: {
+    height: 180,
+    width: "100%",
+  },
+  cardImage: {
+    display: "flex",
+    width: "49.5%",
+    margin: 4,
+    justifyContent: "space-between",
+    borderWidth: 0,
+    borderRadius: 5,
+  },
+  container2: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  button_inicio: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: colores.cinco,
+    margin: 20,
+  },
+  text3: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: "bold",
+    letterSpacing: 0.25,
+    color: "white",
+  },
+  login_container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  login_input: {
+    width: "90%",
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+    borderLeftWidth: 1,
+    borderTopWidth: 1,
+    borderRightWidth: 1,
+    borderBottomWidth: 1,
+    borderRadius: 10,
+    borderColor: colores.gris_claro,
+    color: colores.gris_claro,
+  },
+  login_texto3: {
+    color: colores.siete,
+    fontSize: 35,
+    fontWeight: "bold",
+    marginBottom: 20,
+  },
+  login_texto: {
+    fontSize: 35,
+    color: colores.naranja_claro,
+    fontWeight: "bold",
+    marginBottom: 20,
+  },
+  login_texto2: {
+    color: colores.rosa,
+    textAlign: "left",
+    fontSize: 15,
+    fontWeight: "bold",
+  },
+  login_button_text: {
+    fontSize: 16,
+    color: colores.seis,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  login_button: {
+    backgroundColor: colores.cinco,
+    width: 200,
+    height: 45,
+    borderRadius: 40,
+    justifyContent: "center",
+    marginTop: 10,
+  },
+  login_image: {
+    width: 400,
+    height: 200,
+    borderRadius: 100,
+    marginTop: 30,
+    marginBottom: 10,
+  },
+  inicio_image: {
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+    marginVertical: 30,
+  },
+  icono: {
+    width: 37,
+    height: 37,
+    marginStart: 10,
+    marginLeft: 10,
+    borderRadius: 5,
+  },
+
+  container_image: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  container_buttons: {
+    paddingVertical: 18,
+    display: "flex",
+    justifyContent: "space-between",
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
+  },
+  boton_descargar: {
+    backgroundColor: colores.uno,
+  },
+  boton_borrar: {
+    backgroundColor: "#CB3234",
+  },
+  home_boton: {
+    backgroundColor: "#CB3234",
+    width: 100,
+    height: 40,
+    borderRadius: 10,
+    justifyContent: "center",
+    marginTop: 10,
+  },
+  home_boton_texto: {
+    fontSize: 15,
+    color: colores.seis,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+
+  //Recipes
+  card: {
+    flexDirection: "column",
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    padding: 16,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 3,
+    width: "90%",
+    margin: "auto",
+  },
+  image_screen: {
+    width: 350,
+    height: 350,
+    borderRadius: 10,
+    marginBottom: 20,
+  },
+  nombre_receta: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: 8,
+    textAlign: "center",
+  },
+  desc_receta: {
+    fontSize: 16,
+    color: "#666",
+  },
+  container_rec: {
+    flexDirection: "row",
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    padding: 16,
+    marginVertical: 8,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 3,
+  },
+  recipe_img: {
+    borderRadius: 10,
+  },
+
+  //Membresias
+  membresias_txt: {
+    fontSize: 40,
+    fontWeight: "bold",
+    margin: 0,
+    marginTop: 20,
+    marginBottom: 20,
+    color: colores.gris_oscuro,
+    textAlign: "center",
+  },
+  mem_button: {
+    backgroundColor: colores.cinco,
+    width: 250,
+    height: 45,
+    borderRadius: 40,
+    justifyContent: "center",
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  sesion_button: {
+    backgroundColor: "#E43C43",
+    width: 250,
+    height: 45,
+    borderRadius: 40,
+    justifyContent: "center",
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  mem_container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    padding: 16,
+    marginVertical: 8,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 3,
+  },
+});
