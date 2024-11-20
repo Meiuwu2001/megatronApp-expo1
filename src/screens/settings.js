@@ -1,16 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { AuthContext } from "../context/UsuarioContext"; // Importa el AuthContext
 
 const Settings = () => {
   const navigation = useNavigation();
+  const { signOut } = useContext(AuthContext); // Usa signOut desde el contexto
 
   const handleLogout = () => {
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "Login" }],
-    });
+    signOut();
   };
 
   return (

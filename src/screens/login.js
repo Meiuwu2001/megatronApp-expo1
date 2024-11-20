@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -13,13 +13,100 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from "react-native";
+import { AuthContext } from "../context/UsuarioContext";
+import { CommonActions } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import FingerprintScanner from "react-native-fingerprint-scanner"; // Importar la librería
 
 const Login = ({ navigation }) => {
-  const [email, setEmail] = useState("");
+  const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
+  const [isFingerprintAvailable, setIsFingerprintAvailable] = useState(false);
+  const context = useContext(AuthContext);
 
-  const handleLogin = () => {
-    navigation.replace("MainApp");
+  useEffect(() => {
+    // Verifica si la huella dactilar está disponible en el dispositivo
+    FingerprintScanner.isSensorAvailable()
+      .then(() => setIsFingerprintAvailable(true))
+      .catch((error) => {
+        console.error("Fingerprint scanner error:", error);
+        setIsFingerprintAvailable(false);
+      });
+
+    // Limpiar la huella al desmontar el componente
+    return () => FingerprintScanner.release();
+  }, []);
+
+  const handleLogin = async () => {
+    try {
+      const response = await fetch(
+        "https://backend-integradora.vercel.app/api/auth/iniciar-sesion",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ user, password }),
+        }
+      );
+      const data = await response.json();
+
+      if (response.ok) {
+        // Almacenar el token en AsyncStorage
+        await AsyncStorage.setItem("authToken", data.token);
+        context.signIn(user, data.token);
+
+        // Limpiar campos de usuario y contraseña
+        setUser("");
+        setPassword("");
+
+        // Redirigir al usuario a la pantalla principal
+        const resetAction = CommonActions.reset({
+          index: 0,
+          routes: [{ name: "MainApp" }],
+        });
+        navigation.dispatch(resetAction);
+      } else {
+        console.log("No token found.");
+      }
+    } catch (err) {
+      console.error("Error al iniciar sesión:", err);
+    }
+  };
+
+  const handleFingerprintAuth = () => {
+    // Intenta autenticar al usuario con la huella
+    FingerprintScanner.authenticate({
+      description: "Inicia sesión con tu huella",
+    })
+      .then(async (success) => {
+        console.log("Autenticación exitosa:", success);
+
+        // Obtener el token desde el servidor y almacenarlo
+        const response = await fetch(
+          "https://backend-integradora.vercel.app/api/auth/iniciar-sesion",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ user, password }), // Aquí deberías cambiar para autenticar sin usar password si es necesario
+          }
+        );
+        const data = await response.json();
+
+        if (response.ok) {
+          // Almacenar el token en AsyncStorage
+          await AsyncStorage.setItem("authToken", data.token);
+          context.signIn(user, data.token);
+
+          // Redirigir al usuario a la pantalla principal
+          const resetAction = CommonActions.reset({
+            index: 0,
+            routes: [{ name: "MainApp" }],
+          });
+          navigation.dispatch(resetAction);
+        }
+      })
+      .catch((error) => {
+        console.error("Error de autenticación:", error);
+      });
   };
 
   return (
@@ -50,11 +137,10 @@ const Login = ({ navigation }) => {
                 <Text style={styles.label}>Usuario</Text>
                 <TextInput
                   style={styles.input}
-                  placeholder="ejemplo@gmail.com"
-                  value={email}
-                  onChangeText={setEmail}
+                  placeholder="Tu usuario..."
+                  value={user}
+                  onChangeText={setUser}
                   autoCapitalize="none"
-                  keyboardType="email-address"
                 />
               </View>
 
@@ -81,6 +167,18 @@ const Login = ({ navigation }) => {
               >
                 <Text style={styles.loginButtonText}>Iniciar Sesión</Text>
               </TouchableOpacity>
+
+              {/* Mostrar botón de huella si está disponible */}
+              {isFingerprintAvailable && (
+                <TouchableOpacity
+                  style={styles.fingerprintButton}
+                  onPress={handleFingerprintAuth}
+                >
+                  <Text style={styles.fingerprintButtonText}>
+                    Iniciar sesión con huella
+                  </Text>
+                </TouchableOpacity>
+              )}
             </View>
           </ScrollView>
         </TouchableWithoutFeedback>
@@ -154,6 +252,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   loginButtonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "500",
+  },
+  fingerprintButton: {
+    backgroundColor: "#4751FF",
+    paddingVertical: 15,
+    borderRadius: 10,
+    alignItems: "center",
+    marginTop: 20,
+  },
+  fingerprintButtonText: {
     color: "white",
     fontSize: 16,
     fontWeight: "500",

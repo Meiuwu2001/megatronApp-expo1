@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Feather } from "@expo/vector-icons";
+import { AuthProvider, AuthContext } from "./src/context/UsuarioContext";
 import Dashboard from "./src/screens/dashboard";
 import Profile from "./src/screens/profile";
 import Settings from "./src/screens/settings";
@@ -42,13 +43,26 @@ function TabNavigator() {
   );
 }
 
-export default function App() {
+function AppContent() {
+  const { authState } = useContext(AuthContext);
+
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="MainApp" component={TabNavigator} />
+        {!authState.token ? (
+          <Stack.Screen name="Login" component={Login} />
+        ) : (
+          <Stack.Screen name="MainApp" component={TabNavigator} />
+        )}
       </Stack.Navigator>
     </NavigationContainer>
+  );
+}
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }
